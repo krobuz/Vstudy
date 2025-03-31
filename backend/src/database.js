@@ -1,22 +1,24 @@
+require("dotenv").config({ path: "../.env" });
+// console.log(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_NAME);
+
 const mysql = require("mysql2");
 
 const dbConfig = {
-  host: process.env.DB_HOST || "mysql",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "42069",
-  database: process.env.DB_NAME || "quanlyduhoc",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   port: 3306,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
 };
 
 const pool = mysql.createPool(dbConfig);
 
 function connectWithRetry() {
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error("❌ Lỗi kết nối database. Đang thử lại trong 5s...");
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error("❌ Lỗi kết nối database. Đang thử lại trong 5s...");
+            console.error(err);
+
       setTimeout(connectWithRetry, 5000);
     } else {
       console.log("✅ Kết nối database thành công!");
@@ -26,5 +28,4 @@ function connectWithRetry() {
 }
 
 connectWithRetry();
-
 module.exports = pool;
