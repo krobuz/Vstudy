@@ -12,8 +12,8 @@ const DmThu = sequelize.define("DmThu", {
         allowNull: false,
       }
 }, {
-  tableName: "dm_thu", // Đảm bảo đúng tên bảng
-  timestamps: false // Nếu bảng không có cột `createdAt` và `updatedAt`
+  tableName: "dm_thu", 
+  timestamps: false 
 });
 
 module.exports = DmThu;

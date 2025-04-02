@@ -11,26 +11,27 @@ const { Student, District, City, StudentAccount } = require('../models');
 // Lấy tất cả học sinh
 exports.getAllStudents = async (req, res) => {
   try {
-    const students = await Student.findAll()
-    //   {
-    //   include: [
-    //     {
-    //       model: District,
-    //       as: 'district',
-    //       include: [
-    //         {
-    //           model: City,
-    //           as: 'city',
-    //         }
-    //       ]
-    //     },
-    //     {
-    //       model: StudentAccount,
-    //       as: 'account',
-    //     }
-    //   ]
-    // });
-    console.log(students);
+    const students = await Student.findAll(
+      {
+      include: [
+        {
+          model: District,
+          as: 'district',
+          include: [
+            {
+              model: City,
+              as: 'city',
+            }
+          ]
+        },
+        {
+          model: StudentAccount,
+          as: 'account',
+        }
+      ]
+    }
+  );
+    // console.log(students);
     res.status(200).json(students);
   } catch (error) {
     console.error("Error: ", error);  // In chi tiết lỗi

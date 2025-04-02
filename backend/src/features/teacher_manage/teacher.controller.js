@@ -1,6 +1,6 @@
 const Teacher = require("./teacher.model");
 
-// 📌 Lấy danh sách giáo viên
+// Lấy danh sách giáo viên
 exports.getAllTeachers = async (req, res) => {
   try {
     const teachers = await Teacher.findAll();
@@ -10,7 +10,7 @@ exports.getAllTeachers = async (req, res) => {
   }
 };
 
-// 📌 Lấy giáo viên theo ID
+// Lấy giáo viên theo ID
 exports.getTeacherById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -26,7 +26,7 @@ exports.getTeacherById = async (req, res) => {
   }
 };
 
-// 📌 Thêm giáo viên mới
+// Thêm giáo viên mới
 exports.createTeacher = async (req, res) => {
   try {
     const { ten_giaovien, dob, gioitinh, sdt, email } = req.body;
@@ -42,7 +42,7 @@ exports.createTeacher = async (req, res) => {
   }
 };
 
-// 📌 Cập nhật thông tin giáo viên
+// Cập nhật thông tin giáo viên
 exports.updateTeacher = async (req, res) => {
   try {
     const { id } = req.params;
@@ -66,7 +66,7 @@ exports.updateTeacher = async (req, res) => {
   }
 };
 
-// 📌 Xóa giáo viên
+// Xóa giáo viên
 exports.deleteTeacher = async (req, res) => {
   try {
     const { id } = req.params;

@@ -10,8 +10,8 @@ const Semester = sequelize.define(
     ngaykt: { type: DataTypes.DATE, allowNull: false },
   },
   {
-    tableName: "ky_hoc", // Đảm bảo đúng tên bảng trong DB
-    timestamps: false, // Nếu bảng không có createdAt và updatedAt
+    tableName: "ky_hoc", 
+    timestamps: false,
   }
 );
 

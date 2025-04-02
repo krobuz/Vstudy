@@ -2,7 +2,7 @@ const ThuHs = require('./thuHs.model');
 const DmThu = require("../dm_thu/dmThu.model");
 const HocSinh = require('../../models/student.model');
 
-// 📌 Lấy danh sách các khoản thu
+// Lấy danh sách các khoản thu
 exports.getAllThuHs = async (req, res) => {
   try {
     const thuHs = await ThuHs.findAll({
@@ -19,7 +19,7 @@ exports.getAllThuHs = async (req, res) => {
   }
 };
 
-// 📌 Lấy chi tiết một khoản thu
+// Lấy chi tiết một khoản thu
 exports.getThuHsById = async (req, res) => {
   try {
     const thuHs = await ThuHs.findByPk(req.params.id, {
@@ -37,7 +37,7 @@ exports.getThuHsById = async (req, res) => {
   }
 };
 
-// 📌 Thêm khoản thu mới
+// Thêm khoản thu mới
 exports.createThuHs = async (req, res) => {
   try {
 
@@ -56,7 +56,7 @@ exports.createThuHs = async (req, res) => {
   }
 };
 
-// 📌 Cập nhật khoản thu
+// Cập nhật khoản thu
 exports.updateThuHs = async (req, res) => {
   try {
     const thuHs = await ThuHs.findByPk(req.params.id);
@@ -69,7 +69,7 @@ exports.updateThuHs = async (req, res) => {
   }
 };
 
-// 📌 Xóa khoản thu
+// Xóa khoản thu
 exports.deleteThuHs = async (req, res) => {
   try {
     const thuHs = await ThuHs.findByPk(req.params.id);

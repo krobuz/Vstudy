@@ -1,8 +1,7 @@
-// truongHq.controller.js
 const TruongHq = require("./truongHq.model");
 const ThanhPhoHq = require("./thanhphoHq.model");
 
-// 📌 Lấy tất cả trường học Hàn Quốc và thông tin thành phố Hàn Quốc
+// Lấy tất cả trường học Hàn Quốc và thông tin thành phố Hàn Quốc
 exports.getAllTruongHq = async (req, res) => {
   try {
     const schools = await TruongHq.findAll()
@@ -13,7 +12,7 @@ exports.getAllTruongHq = async (req, res) => {
   }
 };
 
-// 📌 Tạo trường học mới với thông tin thành phố
+// Tạo trường học mới với thông tin thành phố
 exports.createTruongHq = async (req, res) => {
   try {
     const { ten_truong_hq, korean_name, id_thanhpho, xep_hang } = req.body;
@@ -32,14 +31,14 @@ exports.createTruongHq = async (req, res) => {
 
     // Trả về trường học mới kèm thông tin thành phố
     const schoolWithCity = await newSchool.reload({ 
-      include: { model: ThanhPhoHq, as: "city" } // ✅ Thêm alias 'city' vào include
+      include: { model: ThanhPhoHq, as: "city" } // Thêm alias 'city' vào include
     });
     res.status(201).json(schoolWithCity);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-//📌 Cập nhật trường học 
+// Cập nhật trường học 
 exports.updateTruongHq = async (req, res) => {
   try {
     const { id } = req.params; // Lấy ID từ URL
@@ -69,7 +68,7 @@ exports.updateTruongHq = async (req, res) => {
   }
 };
 
-//📌 Xoá trường học
+// Xoá trường học
 exports.deleteTruongHq = async (req, res) => {
   try {
     const { id } = req.params;

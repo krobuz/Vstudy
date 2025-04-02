@@ -1,6 +1,6 @@
 const DocumentCategory = require("./documentCategory.model");
 
-// 📌 Lấy danh sách tất cả loại hồ sơ
+// Lấy danh sách tất cả loại hồ sơ
 exports.getAllCategories = async (req, res) => {
   try {
     const categories = await DocumentCategory.findAll();
@@ -10,7 +10,7 @@ exports.getAllCategories = async (req, res) => {
   }
 };
 
-// 📌 Lấy một loại hồ sơ theo ID
+// Lấy một loại hồ sơ theo ID
 exports.getCategoryById = async (req, res) => {
   try {
     const category = await DocumentCategory.findByPk(req.params.id);
@@ -21,7 +21,7 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
-// 📌 Tạo loại hồ sơ mới
+// Tạo loại hồ sơ mới
 exports.createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -32,7 +32,7 @@ exports.createCategory = async (req, res) => {
   }
 };
 
-// 📌 Cập nhật loại hồ sơ
+// Cập nhật loại hồ sơ
 exports.updateCategory = async (req, res) => {
   try {
     const category = await DocumentCategory.findByPk(req.params.id);
@@ -45,7 +45,7 @@ exports.updateCategory = async (req, res) => {
   }
 };
 
-// 📌 Xóa loại hồ sơ
+// Xóa loại hồ sơ
 exports.deleteCategory = async (req, res) => {
   try {
     const category = await DocumentCategory.findByPk(req.params.id);

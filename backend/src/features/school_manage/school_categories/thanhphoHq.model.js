@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../../config/database'); // Cấu hình kết nối DB
+const sequelize = require('../../../config/database'); 
 
 const ThanhphoHq = sequelize.define('ThanhphoHq', {
   id: {
@@ -20,5 +20,4 @@ const ThanhphoHq = sequelize.define('ThanhphoHq', {
   timestamps: false
 });
 
-// Xuất model trực tiếp
 module.exports = ThanhphoHq;

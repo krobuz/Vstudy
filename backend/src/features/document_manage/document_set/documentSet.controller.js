@@ -1,7 +1,7 @@
 const BoHoso = require('./documentSet.model');
 const HocSinh = require('../../../models/student.model');
 
-// 📌 Lấy tất cả các hồ sơ
+// Lấy tất cả các bộ hồ sơ
 exports.getAllBoHoso = async (req, res) => {
   try {
     const boHosos = await BoHoso.findAll({
@@ -14,7 +14,7 @@ exports.getAllBoHoso = async (req, res) => {
   }
 };
 
-// 📌 Lấy chi tiết hồ sơ theo id
+// Lấy chi tiết hồ sơ theo id
 exports.getBoHosoById = async (req, res) => {
   try {
     const boHoso = await BoHoso.findByPk(req.params.id, {
@@ -29,7 +29,7 @@ exports.getBoHosoById = async (req, res) => {
   }
 };
 
-// 📌 Thêm hồ sơ mới
+// Thêm hồ sơ mới
 exports.createBoHoso = async (req, res) => {
   try {
     const { id_hocsinh, ten_bo_hoso, status } = req.body;
@@ -45,7 +45,7 @@ exports.createBoHoso = async (req, res) => {
   }
 };
 
-// 📌 Cập nhật hồ sơ
+// Cập nhật hồ sơ
 exports.updateBoHoso = async (req, res) => {
   try {
     const boHoso = await BoHoso.findByPk(req.params.id);
@@ -58,7 +58,7 @@ exports.updateBoHoso = async (req, res) => {
   }
 };
 
-// 📌 Xóa hồ sơ
+// Xóa hồ sơ
 exports.deleteBoHoso = async (req, res) => {
   try {
     const boHoso = await BoHoso.findByPk(req.params.id);

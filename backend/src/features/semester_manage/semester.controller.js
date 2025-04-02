@@ -1,6 +1,6 @@
 const Semester = require("./semester.model");
 
-// 📌 Lấy danh sách học kỳ
+// Lấy danh sách học kỳ
 exports.getAllSemesters = async (req, res) => {
   try {
     const semesters = await Semester.findAll();
@@ -10,7 +10,7 @@ exports.getAllSemesters = async (req, res) => {
   }
 };
 
-// 📌 Lấy học kỳ theo ID
+// Lấy học kỳ theo ID
 exports.getSemesterById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -26,7 +26,7 @@ exports.getSemesterById = async (req, res) => {
   }
 };
 
-// 📌 Thêm mới học kỳ
+// Thêm mới học kỳ
 exports.createSemester = async (req, res) => {
   try {
     const { ten_kyhoc, ngaybd, ngaykt } = req.body;
@@ -41,7 +41,7 @@ exports.createSemester = async (req, res) => {
   }
 };
 
-// 📌 Cập nhật học kỳ
+// Cập nhật học kỳ
 exports.updateSemester = async (req, res) => {
   try {
     const { id } = req.params;
@@ -63,7 +63,7 @@ exports.updateSemester = async (req, res) => {
   }
 };
 
-// 📌 Xóa học kỳ
+// Xóa học kỳ
 exports.deleteSemester = async (req, res) => {
   try {
     const { id } = req.params;

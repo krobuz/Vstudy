@@ -36,4 +36,4 @@ const TruongHq = sequelize.define('TruongHq', {
 // Khai báo quan hệ
 TruongHq.belongsTo(ThanhPhoHq, { foreignKey: 'id_thanhpho', as: 'city' });
 
-module.exports = TruongHq; // ✅ Xuất model trực tiếp
+module.exports = TruongHq; 

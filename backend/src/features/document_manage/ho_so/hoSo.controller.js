@@ -2,7 +2,7 @@ const HoSo = require('./hoSo.model');
 const BoHoso = require('../document_set/documentSet.model');
 const DmHoso = require('../document_categories/documentCategory.model');
 
-// 📌 Lấy tất cả các hồ sơ
+// Lấy tất cả các hồ sơ
 exports.getAllHoSo = async (req, res) => {
   try {
     const hoSos = await HoSo.findAll({
@@ -18,7 +18,7 @@ exports.getAllHoSo = async (req, res) => {
   }
 };
 
-// 📌 Lấy chi tiết hồ sơ theo id
+// Lấy chi tiết hồ sơ theo id
 exports.getHoSoById = async (req, res) => {
   try {
     const hoSo = await HoSo.findByPk(req.params.id, {
@@ -36,7 +36,7 @@ exports.getHoSoById = async (req, res) => {
   }
 };
 
-// 📌 Thêm hồ sơ mới
+// Thêm hồ sơ mới
 exports.createHoSo = async (req, res) => {
   try {
     const { id_bo_hoso, id_dm_hoso, link, index_trang } = req.body;
@@ -53,7 +53,7 @@ exports.createHoSo = async (req, res) => {
   }
 };
 
-// 📌 Cập nhật hồ sơ
+// Cập nhật hồ sơ
 exports.updateHoSo = async (req, res) => {
   try {
     const hoSo = await HoSo.findByPk(req.params.id);
@@ -66,7 +66,7 @@ exports.updateHoSo = async (req, res) => {
   }
 };
 
-// 📌 Xóa hồ sơ
+// Xóa hồ sơ
 exports.deleteHoSo = async (req, res) => {
   try {
     const hoSo = await HoSo.findByPk(req.params.id);

@@ -6,7 +6,7 @@ exports.getAllDmThu = async (req, res) => {
     const dmThu = await DmThu.findAll();
     res.json(dmThu);
   } catch (error) {
-    console.error("❌ Lỗi khi lấy dữ liệu dm_thu:", error);
+    console.error("Lỗi khi lấy dữ liệu dm_thu:", error);
     res.status(500).json({ error: "Lỗi server khi lấy dữ liệu" });
   }
 };
@@ -20,7 +20,7 @@ exports.getDmThuById = async (req, res) => {
     }
     res.json(dmThu);
   } catch (error) {
-    console.error("❌ Lỗi khi lấy dữ liệu dm_thu theo ID:", error);
+    console.error("Lỗi khi lấy dữ liệu dm_thu theo ID:", error);
     res.status(500).json({ error: "Lỗi server khi lấy dữ liệu theo ID" });
   }
 };
@@ -32,7 +32,7 @@ exports.createDmThu = async (req, res) => {
     const newDmThu = await DmThu.create({ loai_thu });
     res.status(201).json(newDmThu);
   } catch (error) {
-    console.error("❌ Lỗi khi tạo loại thu:", error);
+    console.error("Lỗi khi tạo loại thu:", error);
     res.status(500).json({ error: "Lỗi server khi tạo loại thu" });
   }
 };
@@ -49,7 +49,7 @@ exports.updateDmThu = async (req, res) => {
     await dmThu.save();
     res.json(dmThu);
   } catch (error) {
-    console.error("❌ Lỗi khi cập nhật loại thu:", error);
+    console.error("Lỗi khi cập nhật loại thu:", error);
     res.status(500).json({ error: "Lỗi server khi cập nhật loại thu" });
   }
 };
@@ -64,7 +64,7 @@ exports.deleteDmThu = async (req, res) => {
     await dmThu.destroy();
     res.json({ message: "Loại thu đã bị xóa" });
   } catch (error) {
-    console.error("❌ Lỗi khi xóa loại thu:", error);
+    console.error("Lỗi khi xóa loại thu:", error);
     res.status(500).json({ error: "Lỗi server khi xóa loại thu" });
   }
 };
