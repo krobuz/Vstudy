@@ -17,6 +17,7 @@ build/
 .cache/
 
 # Bỏ qua Docker dữ liệu & file tạm
+data/
 db_data/
 mysql-container/
 docker-compose.override.yml

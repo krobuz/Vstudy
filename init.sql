@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `quanlyduhoc`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `quanlyduhoc` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `quanlyduhoc`;
+
+--
 -- Table structure for table `anh_baiviet`
 --
 
@@ -81,7 +89,7 @@ DROP TABLE IF EXISTS `bo_hoso`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bo_hoso` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_hocsinh` varchar(10) NOT NULL,
+  `id_hocsinh` int NOT NULL,
   `ten_bo_hoso` varchar(150) NOT NULL,
   `ngay_tao` datetime DEFAULT CURRENT_TIMESTAMP,
   `status` enum('Đang chuẩn bị','Đã nộp','Đã duyệt','Từ chối') DEFAULT 'Đang chuẩn bị',
@@ -97,7 +105,7 @@ CREATE TABLE `bo_hoso` (
 
 LOCK TABLES `bo_hoso` WRITE;
 /*!40000 ALTER TABLE `bo_hoso` DISABLE KEYS */;
-INSERT INTO `bo_hoso` VALUES (1,'HS001','Hồ sơ du học Hàn Quốc - T3','2025-03-01 10:00:00','Đang chuẩn bị'),(2,'HS002','Hồ sơ du học Hàn Quốc - T6','2025-06-01 14:30:00','Đã nộp'),(3,'HS003','Hồ sơ du học Hàn Quốc - T9','2025-09-01 09:15:00','Đã duyệt'),(4,'HS004','Hồ sơ du học Hàn Quốc - T12','2025-12-01 16:45:00','Từ chối'),(5,'HS005','Hồ sơ du học Hàn Quốc - T3','2025-03-15 12:20:00','Đang chuẩn bị');
+INSERT INTO `bo_hoso` VALUES (1,1,'Hồ sơ du học Hàn Quốc - T3','2025-03-01 10:00:00','Đang chuẩn bị'),(2,2,'Hồ sơ du học Hàn Quốc - T6','2025-06-01 14:30:00','Đã nộp'),(3,3,'Hồ sơ du học Hàn Quốc - T9','2025-09-01 09:15:00','Đã duyệt'),(4,4,'Hồ sơ du học Hàn Quốc - T12','2025-12-01 16:45:00','Từ chối'),(5,5,'Hồ sơ du học Hàn Quốc - T3','2025-03-15 12:20:00','Đang chuẩn bị');
 /*!40000 ALTER TABLE `bo_hoso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +118,7 @@ DROP TABLE IF EXISTS `dangky_hoc`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `dangky_hoc` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_hocsinh` varchar(10) NOT NULL,
+  `id_hocsinh` int NOT NULL,
   `id_lophoc` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_dangky` (`id_hocsinh`,`id_lophoc`),
@@ -166,7 +174,8 @@ DROP TABLE IF EXISTS `dm_hoso`;
 CREATE TABLE `dm_hoso` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ten_dm_hoso` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ten_dm_hoso` (`ten_dm_hoso`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -176,7 +185,7 @@ CREATE TABLE `dm_hoso` (
 
 LOCK TABLES `dm_hoso` WRITE;
 /*!40000 ALTER TABLE `dm_hoso` DISABLE KEYS */;
-INSERT INTO `dm_hoso` VALUES (1,'Bằng TN'),(2,'Học bạ'),(3,'Hộ chiếu'),(4,'Ảnh 3.5 x 4.5'),(5,'CT07'),(6,'CCCD học sinh'),(7,'CCCD bố'),(8,'CCCD mẹ');
+INSERT INTO `dm_hoso` VALUES (4,'Ảnh 3.5 x 4.5'),(1,'Bằng TN'),(7,'CCCD bố'),(6,'CCCD học sinh'),(8,'CCCD mẹ'),(5,'CT07'),(3,'Hộ chiếu'),(2,'Học bạ');
 /*!40000 ALTER TABLE `dm_hoso` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,7 +314,7 @@ DROP TABLE IF EXISTS `hocsinh`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `hocsinh` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_hocsinh` varchar(10) DEFAULT NULL,
+  `id_hocsinh` int DEFAULT NULL,
   `ten_hs` varchar(100) NOT NULL,
   `dob` date DEFAULT NULL,
   `gioitinh` enum('Nam','Nữ','Khác') DEFAULT NULL,
@@ -323,6 +332,7 @@ CREATE TABLE `hocsinh` (
   UNIQUE KEY `id_hocsinh` (`id_hocsinh`),
   KEY `id_quanhuyen` (`id_quanhuyen`),
   CONSTRAINT `hocsinh_ibfk_1` FOREIGN KEY (`id_quanhuyen`) REFERENCES `quanhuyen` (`id`),
+  CONSTRAINT `hocsinh_ibfk_2` FOREIGN KEY (`id_hocsinh`) REFERENCES `taikhoan_hs` (`id`) ON DELETE SET NULL,
   CONSTRAINT `hocsinh_chk_1` CHECK ((`grade_10` between 0.00 and 10.00)),
   CONSTRAINT `hocsinh_chk_2` CHECK ((`grade_11` between 0.00 and 10.00)),
   CONSTRAINT `hocsinh_chk_3` CHECK ((`grade_12` between 0.00 and 10.00))
@@ -335,7 +345,7 @@ CREATE TABLE `hocsinh` (
 
 LOCK TABLES `hocsinh` WRITE;
 /*!40000 ALTER TABLE `hocsinh` DISABLE KEYS */;
-INSERT INTO `hocsinh` VALUES (1,'HS001','Nguyễn Văn A','2007-05-15','Nam','nguyenvana@example.com','0987654321','https://facebook.com/nguyenvana',8.50,8.20,9.00,1,'123 Đường ABC, Quận 1','2025-03-31 00:01:21','Đã duyệt'),(2,'HS002','Trần Thị B','2006-09-20','Nữ','tranthib@example.com','0912345678','https://facebook.com/tranthib',7.80,8.00,8.50,2,'456 Đường XYZ, Quận 3','2025-03-31 00:01:21','Chờ xử lý'),(3,'HS003','Lê Văn C','2005-12-01','Nam','levanc@example.com','0978123456','https://facebook.com/levanc',9.00,9.20,9.50,3,'789 Đường DEF, Quận 5','2025-03-31 00:01:21','Từ chối'),(4,'HS004','Hoàng Minh D','2007-07-10','Nam','hoangminhd@example.com','0965432109','https://facebook.com/hoangminhd',6.50,7.00,7.50,1,'12 Đường LMN, Quận 7','2025-03-31 00:01:21','Chờ xử lý'),(5,'HS005','Phạm Thị E','2006-03-25','Nữ','phamthie@example.com','0956789012','https://facebook.com/phamthie',8.00,8.30,8.70,2,'99 Đường OPQ, Quận 10','2025-03-31 00:01:21','Đã duyệt');
+INSERT INTO `hocsinh` VALUES (1,1,'Nguyễn Văn A','2007-05-15','Nam','nguyenvana@example.com','0987654321','https://facebook.com/nguyenvana',8.50,8.20,9.00,1,'123 Đường ABC, Quận 1','2025-04-01 22:01:59','Đã duyệt'),(2,2,'Trần Thị B','2006-09-20','Nữ','tranthib@example.com','0912345678','https://facebook.com/tranthib',7.80,8.00,8.50,2,'456 Đường XYZ, Quận 3','2025-04-01 22:01:59','Chờ xử lý'),(3,3,'Lê Văn C','2005-12-01','Nam','levanc@example.com','0978123456','https://facebook.com/levanc',9.00,9.20,9.50,3,'789 Đường DEF, Quận 5','2025-04-01 22:01:59','Từ chối'),(4,4,'Hoàng Minh D','2007-07-10','Nam','hoangminhd@example.com','0965432109','https://facebook.com/hoangminhd',6.50,7.00,7.50,1,'12 Đường LMN, Quận 7','2025-04-01 22:01:59','Chờ xử lý'),(5,5,'Phạm Thị E','2006-03-25','Nữ','phamthie@example.com','0956789012','https://facebook.com/phamthie',8.00,8.30,8.70,2,'99 Đường OPQ, Quận 10','2025-04-01 22:01:59','Đã duyệt');
 /*!40000 ALTER TABLE `hocsinh` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,10 +494,10 @@ DROP TABLE IF EXISTS `nguoi_than`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `nguoi_than` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_hocsinh` varchar(10) NOT NULL,
+  `id_hocsinh` int NOT NULL,
   `ten_nguoithan` varchar(100) NOT NULL,
   `quan_he` varchar(50) NOT NULL,
-  `sdt` varchar(15) DEFAULT NULL,
+  `sdt` varchar(10) DEFAULT NULL,
   `loai_stk` enum('Sổ Hàn','Sổ Việt','Khác') DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_hocsinh` (`id_hocsinh`),
@@ -543,7 +553,8 @@ DROP TABLE IF EXISTS `phonghoc`;
 CREATE TABLE `phonghoc` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ten_phonghoc` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ten_phonghoc` (`ten_phonghoc`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -646,16 +657,12 @@ DROP TABLE IF EXISTS `taikhoan_hs`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `taikhoan_hs` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `ma_temp` varchar(10) NOT NULL,
-  `id_hocsinh` varchar(10) DEFAULT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `id_quyen` int NOT NULL,
   `ngay_tao` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ma_temp` (`ma_temp`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `id_hocsinh` (`id_hocsinh`),
   KEY `id_quyen` (`id_quyen`),
   CONSTRAINT `taikhoan_hs_ibfk_1` FOREIGN KEY (`id_quyen`) REFERENCES `quyen` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -667,7 +674,7 @@ CREATE TABLE `taikhoan_hs` (
 
 LOCK TABLES `taikhoan_hs` WRITE;
 /*!40000 ALTER TABLE `taikhoan_hs` DISABLE KEYS */;
-INSERT INTO `taikhoan_hs` VALUES (1,'TEMP001','HS001','nguyenvana','hashed_password_1',7,'2025-03-31 00:01:21'),(2,'TEMP002','HS002','tranthib','hashed_password_2',7,'2025-03-31 00:01:21'),(3,'TEMP003','HS003','levanc','hashed_password_3',7,'2025-03-31 00:01:21'),(4,'TEMP004','HS004','hoangminhd','hashed_password_4',7,'2025-03-31 00:01:21'),(5,'TEMP005','HS005','phamthie','hashed_password_5',7,'2025-03-31 00:01:21');
+INSERT INTO `taikhoan_hs` VALUES (1,'nguyenvana','hashed_password_1',7,'2025-04-01 22:01:57'),(2,'tranthib','hashed_password_2',7,'2025-04-01 22:01:57'),(3,'levanc','hashed_password_3',7,'2025-04-01 22:01:57'),(4,'hoangminhd','hashed_password_4',7,'2025-04-01 22:01:57'),(5,'phamthie','hashed_password_5',7,'2025-04-01 22:01:57');
 /*!40000 ALTER TABLE `taikhoan_hs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -706,7 +713,7 @@ DROP TABLE IF EXISTS `thu_hs`;
 CREATE TABLE `thu_hs` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_dm_thu` int NOT NULL,
-  `id_hocsinh` varchar(10) NOT NULL,
+  `id_hocsinh` int NOT NULL,
   `noi_dung` text,
   `so_tien` decimal(15,2) NOT NULL,
   `ngay_thu` date NOT NULL,
@@ -724,7 +731,7 @@ CREATE TABLE `thu_hs` (
 
 LOCK TABLES `thu_hs` WRITE;
 /*!40000 ALTER TABLE `thu_hs` DISABLE KEYS */;
-INSERT INTO `thu_hs` VALUES (1,1,'HS001','Cọc',5000000.00,'2025-03-01'),(2,2,'HS001','Xử lý hồ sơ và đào tạo kỹ năng tiền xuất cảnh',31000000.00,'2025-03-02'),(3,3,'HS001','Phí dịch vụ và xử lý hồ sơ',34000000.00,'2025-03-03'),(4,4,'HS001','Phí nộp trường Hàn',95000000.00,'2025-03-04'),(5,5,'HS001','Phí nộp bên thứ 3',25000000.00,'2025-03-05');
+INSERT INTO `thu_hs` VALUES (1,1,1,'Cọc',5000000.00,'2025-03-01'),(2,2,1,'Xử lý hồ sơ và đào tạo kỹ năng tiền xuất cảnh',31000000.00,'2025-03-02'),(3,3,1,'Phí dịch vụ và xử lý hồ sơ',34000000.00,'2025-03-03'),(4,4,1,'Phí nộp trường Hàn',95000000.00,'2025-03-04'),(5,5,1,'Phí nộp bên thứ 3',25000000.00,'2025-03-05');
 /*!40000 ALTER TABLE `thu_hs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -820,4 +827,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-31  0:47:00
+-- Dump completed on 2025-04-01 22:28:57

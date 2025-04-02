@@ -24,8 +24,9 @@ exports.getCategoryById = async (req, res) => {
 // 📌 Tạo loại hồ sơ mới
 exports.createCategory = async (req, res) => {
   try {
-    const { name } = req.body;
-    const newCategory = await DocumentCategory.create({ name });
+    const { ten_dm_hoso } = req.body;
+    // console.log(ten_dm_hoso);
+    const newCategory = await DocumentCategory.create({ ten_dm_hoso });
     res.status(201).json(newCategory);
   } catch (error) {
     res.status(500).json({ error: error.message });
