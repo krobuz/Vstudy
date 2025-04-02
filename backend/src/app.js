@@ -15,6 +15,8 @@ const thuHsRoutes = require('./features/thu_hs/thuHs.route');
 
 const studentRoutes = require('./routes/student.route');
 
+const boHosoRouter = require('./features/document_manage/document_set/documentSet.route');
+const hoSoRouter = require('./features/document_manage/ho_so/hoSo.route');
 
 // Sử dụng routes
 app.use('/api/permissions', permissionRoutes);
@@ -25,7 +27,7 @@ app.use("/api/school-categories", truongHqRoutes);
 app.use("/api/dm-thu", dmThuRoutes);
 app.use("/api/thu-hs", thuHsRoutes);
 
-
 app.use('/api/students', studentRoutes);
-
+app.use('/api/bo-hoso', boHosoRouter);
+app.use('/api/ho-so', hoSoRouter);
 module.exports = app;
