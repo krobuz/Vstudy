@@ -8,6 +8,8 @@ app.use(express.urlencoded({ extended: true }));
 const permissionRoutes = require('./routes/permission.route');
 const studentAccountRoutes = require("./routes/studentAccount.route");
 const documentCategoryRoutes = require("./features/document_manage/document_categories/documentCategory.route");
+const semesterCategoryRoutes = require("./features/semester_manage/semester.route");
+const teacherRoutes = require("./features/teacher_manage/teacher.route");
 
 const truongHqRoutes = require("./features/school_manage/school_categories/truongHq.route");
 const dmThuRoutes = require("./features/dm_thu/dmThu.route");
@@ -30,4 +32,8 @@ app.use("/api/thu-hs", thuHsRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/bo-hoso', boHosoRouter);
 app.use('/api/ho-so', hoSoRouter);
+
+app.use("/api/semesters", semesterCategoryRoutes);
+app.use("/api/teachers", teacherRoutes);
 module.exports = app;
+

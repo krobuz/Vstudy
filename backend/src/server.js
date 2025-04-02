@@ -1,4 +1,3 @@
-
 const app = require("./app"); // Import app đã cấu hình
 const sequelize = require("./config/database"); // Kết nối database
 
