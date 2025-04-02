@@ -1,6 +1,6 @@
 const ThuHs = require('./thuHs.model');
 const DmThu = require("../dm_thu/dmThu.model");
-const HocSinh = require('../../models/hocSinh.model');
+const HocSinh = require('../../models/student.model');
 
 // 📌 Lấy danh sách các khoản thu
 exports.getAllThuHs = async (req, res) => {

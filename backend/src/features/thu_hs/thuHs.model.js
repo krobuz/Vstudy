@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 const DmThu = require("../dm_thu/dmThu.model");
-const HocSinh = require('../../models/hocSinh.model');
+const HocSinh = require('../../models/student.model');
 
 const ThuHs = sequelize.define('ThuHs', {
   id: {
@@ -18,7 +18,7 @@ const ThuHs = sequelize.define('ThuHs', {
     }
   },
   id_hocsinh: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: 'hocsinh',
