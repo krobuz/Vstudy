@@ -1,10 +1,27 @@
+const { Sequelize } = require('sequelize');
 const TruongHq = require("./truongHq.model");
 const ThanhPhoHq = require("./thanhphoHq.model");
 
 // Lấy tất cả trường học Hàn Quốc và thông tin thành phố Hàn Quốc
 exports.getAllTruongHq = async (req, res) => {
   try {
-    const schools = await TruongHq.findAll()
+    const schools = await TruongHq.findAll({
+      attributes: [
+        'id',
+        'ten_truong_hq',
+        'korean_name',
+        'xep_hang',
+        // Sử dụng Sequelize.col để lấy tên thành phố từ bảng ThanhPhoHq
+        [Sequelize.col('city.ten_thanhpho'), 'ten_thanhpho']
+      ],
+      include: [
+        {
+          model: ThanhPhoHq,
+          as: 'city',
+          attributes: [] 
+        }
+      ]
+    });
     
     res.json(schools);
   } catch (error) {
@@ -16,7 +33,7 @@ exports.getAllTruongHq = async (req, res) => {
 exports.createTruongHq = async (req, res) => {
   try {
     const { ten_truong_hq, korean_name, id_thanhpho, xep_hang } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     // Kiểm tra xem thành phố có tồn tại không
     const city = await ThanhPhoHq.findByPk(id_thanhpho);
     if (!city) return res.status(404).json({ message: "Thành phố không tồn tại" });

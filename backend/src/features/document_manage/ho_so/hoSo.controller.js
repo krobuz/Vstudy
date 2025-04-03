@@ -10,7 +10,7 @@ exports.getAllHoSo = async (req, res) => {
         { model: BoHoso, as: 'bo_hoso', attributes: ['ten_bo_hoso'] },
         { model: DmHoso, as: 'dm_hoso', attributes: ['ten_dm_hoso'] },
       ],
-      order: [['ngay_up', 'DESC']],
+      order: [['id', 'ASC']],
     });
     res.json(hoSos);
   } catch (error) {

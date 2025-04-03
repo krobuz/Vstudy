@@ -1,5 +1,5 @@
-const { Student, District, City, StudentAccount } = require('../models');
-
+const { Student, District, City, } = require('../models');
+const { Sequelize } = require('sequelize');
 
 // console.log("Student model: ", Student);
 // console.log("District model: ", District);
@@ -11,26 +11,34 @@ const { Student, District, City, StudentAccount } = require('../models');
 // Lấy tất cả học sinh
 exports.getAllStudents = async (req, res) => {
   try {
-    const students = await Student.findAll(
-      {
+    const students = await Student.findAll({
+      attributes: [
+        'id', 
+        'ten_hs', 
+        'dob', 
+        'gioitinh', 
+        'diachi_chitiet', 
+        'email', 
+        'sdt',
+        [Sequelize.col('district.ten_quanhuyen'), 'ten_quanhuyen'], 
+        [Sequelize.col('district.city.ten_tinhthanh'), 'ten_tinhthanh']
+      ],
       include: [
         {
           model: District,
           as: 'district',
+          attributes: [], 
           include: [
             {
               model: City,
               as: 'city',
+              attributes: [] 
             }
           ]
-        },
-        {
-          model: StudentAccount,
-          as: 'account',
         }
       ]
-    }
-  );
+    });
+
     // console.log(students);
     res.status(200).json(students);
   } catch (error) {

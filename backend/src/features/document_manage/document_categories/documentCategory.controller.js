@@ -3,7 +3,9 @@ const DocumentCategory = require("./documentCategory.model");
 // Lấy danh sách tất cả loại hồ sơ
 exports.getAllCategories = async (req, res) => {
   try {
-    const categories = await DocumentCategory.findAll();
+    const categories = await DocumentCategory.findAll({
+      order: [['id', 'ASC']]
+    });
     res.json(categories);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -24,8 +26,8 @@ exports.getCategoryById = async (req, res) => {
 // Tạo loại hồ sơ mới
 exports.createCategory = async (req, res) => {
   try {
-    const { name } = req.body;
-    const newCategory = await DocumentCategory.create({ name });
+    const { ten_dm_hoso } = req.body;
+    const newCategory = await DocumentCategory.create({ ten_dm_hoso });
     res.status(201).json(newCategory);
   } catch (error) {
     res.status(500).json({ error: error.message });
