@@ -3,11 +3,6 @@
   height: 100vh;
   background-color: white;
   border-right: 1px solid #e0e0e0;
-<<<<<<< HEAD
-=======
-  display: flex;
-  flex-direction: column;
->>>>>>> develop
   position: fixed;
   left: 0;
   top: 0;
@@ -22,10 +17,7 @@
   margin: 0;
   font-size: 24px;
   color: #1976d2;
-<<<<<<< HEAD
   user-select: none;
-=======
->>>>>>> develop
 }
 
 .sidebar-nav {
