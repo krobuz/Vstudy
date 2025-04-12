@@ -1,20 +1,9 @@
-<<<<<<< HEAD
-
-=======
-/* tableStyles.css */
-
-/* Table container */
->>>>>>> develop
 .table-container {
     width: 100%;
     overflow-x: auto;
     margin-top: 20px;
   }
   
-<<<<<<< HEAD
-=======
-  /* Table styling */
->>>>>>> develop
   .custom-table {
     width: 100%;
     border-collapse: collapse;
@@ -23,33 +12,18 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-<<<<<<< HEAD
   .custom-table thead {
     background-color: #dddddd;
   }
 
-=======
-  /* Table Header */
-  .custom-table thead {
-    background-color: #f4f4f4;
-  }
-  
->>>>>>> develop
   .custom-table th {
     padding: 12px;
     border-bottom: 2px solid #ddd;
     text-align: left;
     font-weight: bold;
-<<<<<<< HEAD
     color: #000;
   }
   
-=======
-    color: #000000;
-  }
-  
-  /* Table Rows */
->>>>>>> develop
   .custom-table td {
     padding: 20px;
     border-bottom: 1px solid #ddd;
@@ -57,7 +31,6 @@
 
   }
   
-<<<<<<< HEAD
   .custom-table tbody tr:hover {
     background-color: #e3f2fd;
   }
@@ -87,31 +60,3 @@
   /* .delete-btn {
     background-color: #ffa2a2;
   } */
-=======
-  /* Hover effect */
-  .custom-table tbody tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Action buttons */
-  .action-button {
-    background: #ffffff;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 5px;
-    color: black;
-  }
-  
-  .action-button.edit {
-    color: #007bff;
-  }
-  
-  .action-button.delete {
-    color: #dc3545;
-  }
-  
-  .action-button:hover {
-    opacity: 0.7;
-  }
->>>>>>> develop
