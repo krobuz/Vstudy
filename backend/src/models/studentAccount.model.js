@@ -2,8 +2,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
 const Permission = require("./permission.model");
-// const Student = require("./student.model");
-
 
 const StudentAccount = sequelize.define("StudentAccount", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -19,8 +17,5 @@ const StudentAccount = sequelize.define("StudentAccount", {
 
 // Thiết lập quan hệ với bảng quyền
 StudentAccount.belongsTo(Permission, { foreignKey: "id_quyen", as: "permission" });
-
-// StudentAccount.hasOne(Student, { foreignKey: 'id_hocsinh', as: 'student' });
-
 
 module.exports = StudentAccount;

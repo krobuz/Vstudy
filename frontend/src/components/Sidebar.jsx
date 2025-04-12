@@ -21,7 +21,11 @@ const Sidebar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
+<<<<<<< HEAD
     <aside className="sidebar">
+=======
+    <nav className="sidebar">
+>>>>>>> develop
       <div className="sidebar-header">
         <h1 className="logo">VStudy</h1>
       </div>
@@ -137,7 +141,11 @@ const Sidebar = () => {
           </Link>
         </li>
       </ul>
+<<<<<<< HEAD
     </aside>
+=======
+    </nav>
+>>>>>>> develop
   );
 };
 
