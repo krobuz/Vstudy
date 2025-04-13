@@ -80,6 +80,17 @@ const SchoolManagement = () => {
   const handleSubmit =  async (e) => {
     e.preventDefault();
 
+    //kiểm tra xem có trùng tên trường hay ko?
+    const isDuplicate = schools.some(
+      (school) => 
+        school.ten_truong_hq.trim().toLowerCase() === formData.ten_truong_hq.trim().toLowerCase() &&
+        (!editingSchool || school.id !== editingSchool.id) 
+    );
+    if (isDuplicate) {
+      alert("Tên trường đã tồn tại. Vui lòng nhập tên khác.");
+      return;
+    }
+
     if (editingSchool) {
       await axios.put(`/api/school-categories/${editingSchool.id}`, formData);
     } else {
@@ -99,7 +110,14 @@ const SchoolManagement = () => {
 
   const handleEdit = (item) => {
     setEditingSchool(item);
-    setFormData(item);
+    // Map lại id_thanhpho từ tên thành phố
+    const city = initialCities.find(c => c.name === item.ten_thanhpho);
+    const id_thanhpho = city ? city.id : '';
+
+    setFormData({
+      ...item,
+      id_thanhpho,  // Thêm id thành phố để select hoạt động
+    });
   };
 
   const handleChange = (e) => {

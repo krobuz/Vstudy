@@ -4,7 +4,7 @@ const DataTable = ({ data, onEdit, onDelete, columnMapping = {}, exclude = [] })
       return <p>Không tìm thấy dữ liệu</p>;
   }
 
-  const columns = Object.keys(data[0]).filter(key => !exclude.includes(key));
+  const columns = Object.keys(columnMapping).filter(key => !exclude.includes(key));
 
   return (
       <div className="table-container">

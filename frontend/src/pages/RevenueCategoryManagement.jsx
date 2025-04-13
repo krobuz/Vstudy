@@ -1,109 +1,91 @@
 import React, { useState, useEffect } from "react";
-import api from '../utils/axios';
+import axios from 'axios';
 import DataTable from "../components/ui/DataTable";
-import InputField from "../components/ui/InputField";
-import "./RevenueCategoryManagement.css";
+import DataForm from '../components/ui/DataForm';
+
 
 const RevenueCategoryManagement = () => {
   const [categories, setCategories] = useState([]);
-  const [newCategory, setNewCategory] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [editingCategories, setEditingCategories] = useState(null);
+  const [formData, setFormData] = useState({});
+
+  const fields = [
+    {name: 'loai_thu', label: 'Loại thu', required: true},
+  ]
 
   const columnMapping = {
     id: 'Mã',
     loai_thu: 'Loại thu'
   };
 
+  
+  const fetchCategories = async () => {
+    const res = await axios.get('/api/dm-thu');
+    setCategories(res.data);
+  };
+  
   useEffect(() => {
     fetchCategories();
   }, []);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const fetchCategories = async () => {
-    try {
-      const response = await api.get("/dm-thu/");
-      setCategories(response.data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (editingCategories) {
+      await axios.put(`/api/dm-thu/${editingCategories.id}`, formData);
+    } else {
+      await axios.post('/api/dm-thu', formData);
     }
+    setEditingCategories(null);
+    setFormData({});
+    fetchCategories();
   };
 
-  const handleAdd = async () => {
-    if (!newCategory.trim()) {
-      alert("Please enter a category name");
-      return;
-    }
-
-    try {
-      const response = await api.post("/dm-thu/", {
-        loai_thu: newCategory
-      });
-      setCategories([...categories, response.data]);
-      setNewCategory("");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleEdit = async (category) => {
-    const newName = prompt("Enter new category name:", category.loai_thu);
-    if (newName === null || newName.trim() === "") return;
-
-    try {
-      const response = await api.put(`/dm-thu/${category.id}/`, {
-        loai_thu: newName
-      });
-      setCategories(
-        categories.map((cat) =>
-          cat.id === category.id ? response.data : cat
-        )
-      );
-    } catch (err) {
-      setError(err.message);
-    }
+  const handleEdit = (item) => {
+    setEditingCategories(item);
+    setFormData(item);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Xóa mục thu?")) {
-      return;
-    }
-
-    try {
-      await api.delete(`/dm-thu/${id}/`);
-      setCategories(categories.filter((cat) => cat.id !== id));
-    } catch (err) {
-      setError(err.message);
+    if (window.confirm('Xác nhận xóa trường này?')) {
+      await axios.delete(`/api/dm-thu/${id}`);
+      fetchCategories();
     }
   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const handleCancelEdit = () => {
+    setEditingCategories(null);
+    setFormData({});
+  };
+
 
   return (
-    <div className="revenue-category-management">
-      <h2 className="text-xl font-bold mb-4">Quản lý danh mục thu</h2>
-      <div className="form-row">
-        <InputField
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
-          placeholder="Thêm loại phí..."
-        />
-        <button onClick={handleAdd} className="bg-green-500 text-white px-4 py-2">
-          Thêm
-        </button>
-      </div>
+    <div style={{ paddingRight: '16px' }}>
+      <h2>Quản lý Danh mục thu</h2>
 
-      <div className="table-container">
-        <DataTable
-          data={categories}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          columnMapping={columnMapping}
-        />
-      </div>
-    </div>
+    <DataForm
+      fields={fields}
+      formData={formData}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+      onCancel={handleCancelEdit}
+      editingItem={editingCategories}
+    />
+
+    <DataTable
+      data={categories}
+      onEdit={handleEdit}
+      onDelete={handleDelete}
+      columnMapping={columnMapping}
+    />
+  </div>
   );
 };
 
