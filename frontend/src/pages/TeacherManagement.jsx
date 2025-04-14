@@ -3,7 +3,6 @@ import api from '../utils/axios';
 import DataTable from "../components/ui/DataTable";
 import DataForm from "../components/ui/DataForm";
 import dayjs from 'dayjs';
-import './TeacherManagement.css';
 
 const TeacherManagement = () => {
   const [teachers, setTeachers] = useState([]);
