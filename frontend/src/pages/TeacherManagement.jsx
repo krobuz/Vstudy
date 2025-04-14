@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/axios';
 import DataTable from "../components/ui/DataTable";
-import ActionButtons from "../components/ui/ActionButtons";
-import InputField from "../components/ui/InputField";
-import DateInputField from '../components/ui/DateInputField';
+import DataForm from "../components/ui/DataForm";
+import dayjs from 'dayjs';
 import './TeacherManagement.css';
 
 const TeacherManagement = () => {
-  const [teacherName, setTeacherName] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("Nam");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [teachers, setTeachers] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [editingTeacher, setEditingTeacher] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -25,123 +21,111 @@ const TeacherManagement = () => {
     email: 'Email'
   };
 
-  // Lấy danh sách giáo viên
+  const fields = [
+    { name: 'ten_giaovien', label: 'Tên giáo viên', required: true },
+    { name: 'dob', label: 'Ngày sinh', type: 'date', required: true },
+    {
+      name: 'gioitinh', label: 'Giới tính', type: 'select', required: true,
+      options: [
+        { label: 'Nam', value: 'Nam' },
+        { label: 'Nữ', value: 'Nữ' },
+      ]
+    },
+    { name: 'sdt', label: 'Số điện thoại', required: true },
+    { name: 'email', label: 'Email', type: 'email', required: true },
+  ];
+
+  const fetchTeachers = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await api.get("/teachers/");
+      setTeachers(response.data);
+    } catch (err) {
+      console.error("Lỗi khi lấy dữ liệu giáo viên", err);
+      setError(err.response?.data?.error || "Không thể tải danh sách giáo viên.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTeachers = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await api.get("/teachers/");
-        setTeachers(response.data);
-      } catch (error) {
-        console.error("Error fetching teachers", error);
-        setError(error.response?.data?.error || "Failed to fetch teachers");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchTeachers();
   }, []);
 
-  // Xử lý thêm giáo viên
-  const handleAdd = async () => {
-    if (!teacherName.trim() || !dob || !phone.trim() || !email.trim()) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.ten_giaovien || !formData.dob || !formData.sdt || !formData.email) {
+      return alert("Vui lòng điền đầy đủ thông tin.");
+    }
 
-    setError(null);
     try {
-      const response = await api.post("/teachers/", {
-        ten_giaovien: teacherName,
-        dob: dob,
-        gioitinh: gender,
-        sdt: phone,
-        email: email,
-      });
-      setTeachers([...teachers, response.data]);
-      setTeacherName("");
-      setDob("");
-      setGender("Nam");
-      setPhone("");
-      setEmail("");
-    } catch (error) {
-      console.error("Error adding teacher", error);
-      setError(error.response?.data?.error || "Failed to add teacher");
+      if (editingTeacher) {
+        const res = await api.put(`/teachers/${editingTeacher.id}/`, formData);
+        setTeachers(teachers.map(t => t.id === editingTeacher.id ? res.data : t));
+      } else {
+        const res = await api.post("/teachers/", formData);
+        setTeachers([...teachers, res.data]);
+      }
+
+      setFormData({});
+      setEditingTeacher(null);
+    } catch (err) {
+      console.error("Lỗi khi lưu giáo viên:", err);
+      setError(err.response?.data?.error || "Không thể lưu giáo viên.");
     }
   };
 
-  // Xử lý sửa giáo viên
-  const handleEdit = async (teacher) => {
-    const newName = prompt("Enter new name:", teacher.ten_giaovien);
-    if (!newName || newName === teacher.ten_giaovien) return;
-
-    try {
-      const response = await api.put(`/teachers/${teacher.id}/`, {
-        ten_giaovien: newName,
-        dob: teacher.dob,
-        gioitinh: teacher.gioitinh,
-        sdt: teacher.sdt,
-        email: teacher.email,
-      });
-      setTeachers(teachers.map(t => t.id === teacher.id ? response.data : t));
-    } catch (error) {
-      console.error("Error updating teacher", error);
-      setError(error.response?.data?.error || "Failed to update teacher");
-    }
+  const handleEdit = (teacher) => {
+    setEditingTeacher(teacher);
+    setFormData({
+      ...teacher,
+      dob: dayjs(teacher.dob).format('YYYY-MM-DD')
+    });
   };
 
-  // Xử lý xóa giáo viên
+  const handleCancelEdit = () => {
+    setEditingTeacher(null);
+    setFormData({});
+  };
+
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this teacher?")) return;
-
+    if (!window.confirm("Bạn có chắc chắn muốn xóa giáo viên này?")) return;
     try {
       await api.delete(`/teachers/${id}/`);
       setTeachers(teachers.filter(t => t.id !== id));
-    } catch (error) {
-      console.error("Error deleting teacher", error);
-      setError(error.response?.data?.error || "Failed to delete teacher");
+    } catch (err) {
+      console.error("Lỗi khi xóa giáo viên:", err);
+      setError(err.response?.data?.error || "Không thể xóa giáo viên.");
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   return (
     <div className="teacher-management">
-      <h2 className="text-xl font-bold mb-4">Quản lý giáo viên</h2>
+      <h2>Quản lý giáo viên</h2>
       {error && <div className="error-message">{error}</div>}
 
-      <div className="mb-4 flex space-x-2">
-        <InputField 
-          value={teacherName} 
-          onChange={(e) => setTeacherName(e.target.value)} 
-          placeholder="Tên giáo viên..." 
-        />
-        <DateInputField 
-          value={dob} 
-          onChange={setDob} 
-          placeholder="dd/MM/yyyy" 
-        />
-        <select
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          className="border rounded px-2 py-1"
-        >
-          <option value="Nam">Nam</option>
-          <option value="Nữ">Nữ</option>
-        </select>
-        <InputField 
-          value={phone} 
-          onChange={(e) => setPhone(e.target.value)} 
-          placeholder="Nhập số điện thoại" 
-        />
-        <InputField 
-          value={email} 
-          onChange={(e) => setEmail(e.target.value)} 
-          placeholder="Enter email" 
-        />
-        <ActionButtons onAdd={handleAdd} />
-      </div>
+      <DataForm
+        fields={fields}
+        formData={formData}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onCancel={handleCancelEdit}
+        editingItem={editingTeacher}
+      />
 
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Danh sách giáo viên:</h3>
+      <div style={{ marginTop: "20px" }}>
+        <h3>Danh sách giáo viên:</h3>
         {loading ? (
-          <p className="text-gray-500">Loading...</p>
+          <p>Đang tải...</p>
         ) : (
           <DataTable
             data={teachers}
@@ -155,4 +139,4 @@ const TeacherManagement = () => {
   );
 };
 
-export default TeacherManagement; 
+export default TeacherManagement;
