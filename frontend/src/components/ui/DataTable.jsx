@@ -25,20 +25,24 @@ const DataTable = ({ data, onEdit, onDelete, columnMapping = {}, exclude = [] })
           <table className="custom-table">
               <thead>
                   <tr>
-                      {columns.map((col) => (
-                          <th key={col}>{columnMapping[col] || col}</th>
-                      ))}
+                    <th>STT</th>
+                     {columns
+                        .filter((col) => col !== "id") // Ẩn cột "id"
+                        .map((col) => (
+                            <th key={col}>{columnMapping[col] || col}</th>
+                        ))}
                       <th>Thao tác</th>
                   </tr>
               </thead>
               <tbody>
-                  {data.map((row) => (
-                      <tr key={row.id}>
-                          {columns.map((col) => (
-                              <td key={col}>
-                                {isDate(row[col]) ? formatDate(row[col]) : row[col]}
-                              </td>
-                          ))}
+                  {data.map((row, index) => (
+                         <tr key={row.id || index}>
+                            <td>{index + 1}</td>
+                            {columns
+                            .filter((col) => col !== 'id')
+                            .map((col) => (
+                                <td key={col}>{isDate(row[col]) ? formatDate(row[col]) : row[col]}</td>
+                            ))}
                           <td>
                               <button className="edit-btn" onClick={() => onEdit(row)}>Sửa</button>
                               <button className="delete-btn" onClick={() => onDelete(row.id)}>Xóa</button>

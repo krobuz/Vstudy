@@ -58,6 +58,17 @@ const TeacherManagement = () => {
       return alert("Vui lòng điền đầy đủ thông tin.");
     }
 
+    //kiểm tra xem có trùng tên trường hay ko?
+    const isDuplicate = teachers.some(
+      (teacher) => 
+        teacher.sdt.trim().toLowerCase() === formData.sdt.trim().toLowerCase() &&
+        (!editingTeacher || teacher.id !== editingTeacher.id) 
+    );
+    if (isDuplicate) {
+      alert("Số điện thoại đã tồn tại.");
+      return;
+    }
+
     try {
       if (editingTeacher) {
         const res = await api.put(`/teachers/${editingTeacher.id}/`, formData);
@@ -108,7 +119,7 @@ const TeacherManagement = () => {
   };
 
   return (
-    <div className="teacher-management">
+    <div>
       <h2>Quản lý giáo viên</h2>
       {error && <div className="error-message">{error}</div>}
 

@@ -84,12 +84,12 @@ const SemesterManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure?")) return;
+    if (!window.confirm("Bạn có chắc chắn muốn xóa kì học này ?")) return;
     try {
       await axios.delete(`/api/semesters/${id}`);
       fetchSemesters();
     } catch (error) {
-      console.error("Error deleting semester", error);
+      console.error("Lỗi khi xóa kì học", error);
     }
   };
 

@@ -16,16 +16,16 @@ const App = () => {
         <Sidebar className="sidebar" />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<div>Dashboard</div>} />
+            <Route path="/" element={<div>Trang chủ</div>} />
             <Route path="/schools" element={<SchoolManagement />} />
             <Route path="/semesters" element={<SemesterManagement />} />
             <Route path="/document-types" element={<DocumentCategory />} />
             <Route path="/students" element={<StudentManagement />} />
             <Route path="/teachers" element={<TeacherManagement />} />
             <Route path="/revenue-categories" element={<RevenueCategoryManagement />} />
-            <Route path="/finance" element={<div>Finance Management</div>} />
-            <Route path="/statistics" element={<div>Statistics</div>} />
-            <Route path="/account" element={<div>Account Settings</div>} />
+            <Route path="/finance" element={<div>Báo cáo thu chi</div>} />
+            <Route path="/statistics" element={<div>Báo cáo thống kê</div>} />
+            <Route path="/account" element={<div>Tài khoản và phân quyền</div>} />
           </Routes>
         </main>
       </div>
